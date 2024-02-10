@@ -17,14 +17,41 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Signup {
 	@JsonProperty(access = Access.READ_ONLY) // this property only used during ser.
+
+	private int userId;
+	@NotBlank(message = "User Name required")
+	private String userName;
+
 	private Long id;
 	@NotBlank(message = "First Name required")
 	private String firstName;
 	private String lastName;
+
 	@Email(message = "Invalid Email!!!")
 	private String email;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
+
+	@NotBlank(message="Phone number is required")
+	private String phone;
+	private UserRole role;
+	@NotBlank(message="Aadhar no must be provided")
+	private String aadharNo;
+	
+	public Signup(String userName,String email,String password,String phone,UserRole role,String aadharNo)
+	{
+		super();
+		this.userName=userName;
+		this.email=email;
+		this.password=password;
+		this.phone=phone;
+		this.role=role;
+		this.aadharNo = aadharNo;
+		
+	}
+}
+
+
 	private UserRole role;
 	public Signup(String firstName, String lastName,
 			String email, String password, UserRole role) {
@@ -38,3 +65,4 @@ public class Signup {
 	
 	
 }
+

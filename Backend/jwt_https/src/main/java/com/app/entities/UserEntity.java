@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+import org.apache.commons.io.filefilter.FalseFileFilter;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,27 +25,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "password") // toString excluding password
-public class UserEntity {
+
+public class UserEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId; 
-	
-	@Column(length = 255, name = "user_name",nullable = false)
+	@Column(name="user_id",nullable = false)
+	private int userId;
+	@Column(length = 255 ,name = "user_name",nullable = false)
 	private String userName;
-	
-	@Column(length = 255, unique = true, nullable = false)
+	@Column(length = 255,unique = true,nullable = false)
 	private String email;
-	
 	@Column(length = 255, nullable = false)
 	private String password;
-	
-	@Column(length = 25,nullable = false,unique = true)
+	@Column(length = 10,unique = true,nullable = false)
 	private String phone;
-	
-	@Column(length = 12,nullable = false,unique = true)
-	private String aadharNo;
-	
 	@Enumerated(EnumType.STRING)
-	@Column(length = 30)
+	@Column(length = 25)
 	private UserRole role;
+	@Column (length = 12,unique = true,nullable = false,name="aadhar_no")
+	private String aadharNo;
 }
