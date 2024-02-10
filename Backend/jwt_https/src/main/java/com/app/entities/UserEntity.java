@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 import org.apache.commons.io.filefilter.FalseFileFilter;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "password") // toString excluding password
+
 public class UserEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +44,4 @@ public class UserEntity{
 	private UserRole role;
 	@Column (length = 12,unique = true,nullable = false,name="aadhar_no")
 	private String aadharNo;
-	
 }
