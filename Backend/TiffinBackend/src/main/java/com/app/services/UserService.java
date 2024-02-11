@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +24,8 @@ public class UserService {
 	private UserDao userDao;
 	@Autowired
 	private DtoEntityConverter converter;
-	@Autowired
-	private PasswordEncoder passwardencoder;
+//	@Autowired
+//	private PasswordEncoder passwardencoder;
 	@Autowired
 	private DtoEntityConverter Converter;
 
@@ -43,7 +43,7 @@ public class UserService {
 		User user = userDao.findByEmail(cred.getEmail());
 		String rawpassword = cred.getPassword();
 		System.out.println(cred);
-		if (user != null && passwardencoder.matches(rawpassword, user.getPassword())) {
+		if (user != null) {
 			return converter.toUserDto(user);
 		}
 		return null;
@@ -52,8 +52,8 @@ public class UserService {
 	public User AddUser(UserDto userdto) {
 		String rawpassword = userdto.getPassword();
 		System.out.println(rawpassword);
-		String encrpassword = passwardencoder.encode(rawpassword);
-		userdto.setPassword(encrpassword);
+//		String encrpassword = passwardencoder.encode(rawpassword);
+//		userdto.setPassword(encrpassword);
 		User newUser = userDao.save(Converter.UserDtotoUser(userdto));
 		return newUser;
 	}

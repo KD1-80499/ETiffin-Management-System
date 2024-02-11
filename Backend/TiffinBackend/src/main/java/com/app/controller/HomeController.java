@@ -5,15 +5,17 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dtos.AuthResp;
@@ -21,46 +23,52 @@ import com.app.dtos.Credential;
 import com.app.dtos.Response;
 import com.app.dtos.UserDto;
 import com.app.entities.User;
-import com.app.jwt_utils.JwtUtils;
+//import com.app.jwt_utils.JwtUtils;
 //import com.app.services.UserAddressService;
 import com.app.services.UserService;
 
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
+@RequestMapping("users")
 @RestController
 public class HomeController {
 //	@Autowired
 //	UserAddressService userAddressService;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private JwtUtils utils;
-	@Autowired
-	private AuthenticationManager manager;
+//	@Autowired
+//	private JwtUtils utils;
+//	@Autowired
+//	private AuthenticationManager manager;
 
 	@Autowired(required = true)
 	private ModelMapper mapper;
 
 	@PostMapping("/signin")
+//	public Object Signin(@RequestBody Credential cred) {
 	public ResponseEntity<?> Signin(@RequestBody Credential cred) {
-		// UserDto userDto = userService.findUserByEmailAndPassword(cred);
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(cred.getEmail(),
-				cred.getPassword());
-		System.out.println("AuthToken : " + authToken);
 		try {
-			// authenticate the credentials
-			Authentication authenticatedDetails = manager.authenticate(authToken);
-			System.out.println("Auth Token Again : " + authenticatedDetails);
-			List<? extends GrantedAuthority> authorities = (List<? extends GrantedAuthority>) authenticatedDetails
-					.getAuthorities();
-			System.out.println("ROle Home : " + authorities.get(0).getAuthority());
-
-			return Response.success(new AuthResp("success", utils.generateJwtToken(authenticatedDetails),
-					authorities.get(0).getAuthority()));
-			// return Response.success(authenticatedDetails);
+		 UserDto userDto = userService.findUserByEmailAndPassword(cred);
+		
+//		 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(cred.getEmail(),
+//				cred.getPassword());
+//		System.out.println("AuthToken : " + authToken);
+//		try {
+//			// authenticate the credentials
+//			Authentication authenticatedDetails = manager.authenticate(authToken);
+//			System.out.println("Auth Token Again : " + authenticatedDetails);
+//			List<? extends GrantedAuthority> authorities = (List<? extends GrantedAuthority>) authenticatedDetails
+//					.getAuthorities();
+//			System.out.println("ROle Home : " + authorities.get(0).getAuthority());
+//
+//			return Response.success(new AuthResp("success", utils.generateJwtToken(authenticatedDetails),
+//					authorities.get(0).getAuthority()));
+//			// return Response.success(authenticatedDetails);
+		 return Response.success(userDto);
+//		 return new ResponseEntity<UserDto>(userDto,HttpStatus.OK);
 		} catch (Exception e) { // lab work : replace this by a method in global exc handler
 			// send back err resp code
 			System.out.println("err " + e);
-			return Response.error(new AuthResp("error", null, null));
+			return null;
 		}
 
 	}
